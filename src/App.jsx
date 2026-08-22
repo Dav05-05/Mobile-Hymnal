@@ -132,13 +132,17 @@ function HymnViewer({ hymn, onClose, onNavigate, isFirst, isLast, isFavorite, on
           <button onClick={() => setZoom(p => Math.min(p + 0.5, 3))} disabled={zoom === 3} className="p-2 rounded-full disabled:opacity-50 hover:bg-blue-700 transition-colors"><ZoomIn size={22} /></button>
         </div>
       </header>
-      <div ref={containerRef} className="flex-1 overflow-auto relative flex items-center justify-center bg-slate-900 touch-pan-x touch-pan-y">
-        <img src={hymn.image} alt={hymn.title} className="max-w-full origin-top-left md:origin-center transition-transform duration-200" style={{ transform: `scale(${zoom})`, minHeight: zoom > 1 ? '100%' : 'auto' }} />
+      <div ref={containerRef} className="flex-1 overflow-auto relative flex items-start justify-start bg-slate-900 touch-pan-x touch-pan-y">
+        <div className="flex min-w-full flex-col items-center gap-4 p-2">
+          {hymn.pages.map((page) => (
+            <img key={page} src={`/scans/page-${String(page).padStart(3, '0')}.jpg`} alt={`${hymn.title}, page ${page}`} className="max-w-full origin-top-left transition-transform duration-200" style={{ transform: `scale(${zoom})` }} />
+          ))}
+        </div>
         {zoom > 1 && <button onClick={() => setZoom(1)} className="fixed bottom-20 right-4 bg-slate-800/90 text-white p-3 rounded-full shadow-lg backdrop-blur-sm"><Maximize size={20} /></button>}
       </div>
       <div className="bg-blue-900 text-white p-3 flex justify-between items-center safe-area-bottom">
         <button onClick={() => onNavigate('prev')} disabled={isFirst} className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-blue-800 disabled:opacity-40 hover:bg-blue-700 transition-colors w-28"><ChevronLeft size={20} /> Antis</button>
-        <span className="text-sm text-blue-300 font-bold">{hymn.id} / 200</span>
+        <span className="text-sm text-blue-300 font-bold">{hymn.id} / {HYMN_DATABASE.length}</span>
         <button onClick={() => onNavigate('next')} disabled={isLast} className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-blue-800 disabled:opacity-40 hover:bg-blue-700 transition-colors w-28">Sunod <ChevronRight size={20} /></button>
       </div>
     </div>
