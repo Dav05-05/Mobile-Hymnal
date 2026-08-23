@@ -25,15 +25,12 @@ jobs:
       - name: Install Dependencies & Build Web App
         run: |
           npm install
+          npm install @capacitor/android @capacitor/cli @capacitor/core
           npm run build
 
-      - name: Add or Sync Capacitor Android
+      - name: Sync Capacitor Android
         run: |
-          if [ ! -d "android" ]; then
-            npx cap add android
-          else
-            npx cap sync android
-          fi
+          npx cap sync android
 
       - name: Build Android APK
         run: |
