@@ -1,7 +1,7 @@
 // DATA LAYER: edit this file to rename hymns or join pages together.
 
 // Increase this when you add a new page-###.jpg file to public/scans.
-const PAGE_COUNT = 254;
+const PAGE_COUNT = 253;
 
 // A hymn uses the next unused page by default. Set pages manually when:
 // - one hymn spans pages: 12: { title: "My hymn", pages: [12, 13] }
