@@ -1,0 +1,85 @@
+/* Container & Layout */
+.hymn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* 3-Way Segmented Toggle Bar */
+.toggle-bar {
+  display: flex;
+  background-color: #e5e7eb;
+  border-radius: 9999px;
+  padding: 4px;
+  width: 100%;
+  max-width: 360px;
+  margin-bottom: 1.5rem;
+}
+
+.toggle-bar button {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #4b5563;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.toggle-bar button.active {
+  background-color: #ffffff;
+  color: #2563eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* View Displays */
+.content-display {
+  width: 100%;
+}
+
+.scan-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.plain-text {
+  font-family: inherit;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  white-space: pre-wrap;
+}
+
+/* Floating Chord Rendering */
+.hymn-line {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.chord-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-right: 0.2rem;
+}
+
+.chord-label {
+  font-weight: bold;
+  color: #2563eb;
+  font-size: 0.85rem;
+  min-height: 1.2rem; /* Ensures alignment even when a block has no chord */
+}
+
+.lyrics-text {
+  font-size: 1.1rem;
+  color: #111827;
+}
