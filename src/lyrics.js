@@ -1,23 +1,29 @@
 export const hymnLyrics = {
-  1: `1. [G]O Dios nga [C]gamhanan,
-Sa [G]imo mga binu[D]hatan,
-[G]Balaan ang [C]Imo ngalan,
-Gadayaw [D]kami sa [G]Imo.
+  // Hiligaynon Category ("hiligaynon-id")
+  "hiligaynon-1": `
+[G]O Dios nga Makaga[C]gahum
+[G]Daku ang Imo nga [D]mga buhat...
+`,
 
-Koro:
-[C]Hallelujah, [G]pabayawon,
-[Em]Ang ngalan [Am]Niya ga[D]mhanan!
-[C]Hallelujah, [G]ipasaulog,
-[Am]Ihatag sa [D7]Iya [G]tanan.
+  "hiligaynon-2": `
+[C]Ang Ginoo amo ang [F]akoy pastor
+[C]Wala ako sing [G]kailangan...
+`,
 
-2. [G]Gugma Mo nga [C]walay katapusan,
-Gapa[G]sulod sa among du[D]ghan,
-[G]Sa adlaw-adlaw [C]nga pagpangabuhi,
-Ikaw ang [D7]among gi[G]yahan.
+  // English Category ("english-id")
+  "english-1": `
+[G]O Lord my God, when I in [C]awesome wonder
+[G]Consider all the [D]worlds Thy hands have [G]made...
+`,
 
-3. [G]Salamat sa [C]Imo kluwasan,
-Nga [G]gindulot Mo sa [D]tanan...`,
+  // Worship Category ("worship-id")
+  "worship-1": `
+[C]Bless the Lord O my [G]soul
+[D/F#]O my [Em]soul, [C]worship His [G]Holy [D]name...
+`,
 
-  2: `1. [D]Balaan, ba[G]laan, ba[D]laan!
-...`
+  // Legacy fallback (Plain numeric ID without category)
+  "99": `
+[G]Sample lyrics using fallback ID...
+`
 };
