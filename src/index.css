@@ -7,6 +7,20 @@ html, body, #root {
   width: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevents unwanted scrolling outside the app area on mobile */
-  -webkit-tap-highlight-color: transparent; /* Removes blue flash on mobile tap */
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  min-width: 280px;
+  overscroll-behavior: none;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.safe-area-bottom {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
 }

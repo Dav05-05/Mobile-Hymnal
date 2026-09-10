@@ -1,13 +1,13 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { 
   Search, ArrowLeft, ZoomIn, ZoomOut, ChevronLeft, ChevronRight, 
-  BookOpen, Maximize, Heart, X, Music, Globe, Layers, ArrowUpDown,
+  BookOpen, Maximize, Heart, X, Music, Globe, ArrowUpDown,
   Palette, Sun, Moon, Check
 } from 'lucide-react';
 import { HYMN_DATABASE } from './data/hymns';
 import { hymnLyrics } from './lyrics';
 
-const APP_VERSION = "1.1.0";
+const APP_VERSION = "1.1.1";
 
 const PALETTES = [
   { id: 'maroon', name: 'Classic Maroon', color: '#881337', isGradient: false },
@@ -32,9 +32,9 @@ export default function App() {
   const [themeConfig, setThemeConfig] = useState(() => {
     try {
       const saved = localStorage.getItem('hiligaynon_hymnal_theme');
-      return saved ? JSON.parse(saved) : { palette: 'maroon', isDark: true };
+      return saved ? JSON.parse(saved) : { palette: 'sage', isDark: false };
     } catch {
-      return { palette: 'maroon', isDark: true };
+      return { palette: 'sage', isDark: false };
     }
   });
 
@@ -188,7 +188,7 @@ export default function App() {
   }, [themeConfig]);
 
   return (
-    <div className={`h-screen w-full flex flex-col font-sans overflow-hidden select-none ${themeClasses.mainBg}`}>
+    <div className={`h-[100dvh] min-h-[100svh] w-full flex flex-col font-sans overflow-hidden select-none ${themeClasses.mainBg}`}>
       {currentView === 'songbooks' && (
         <SongbookSelection 
           onSelectCategory={handleSelectSongbook}
@@ -331,8 +331,7 @@ function SongbookSelection({ onSelectCategory, favoritesCount, themeClasses, onO
     return {
       hiligaynon: HYMN_DATABASE.filter(h => h.category === 'hiligaynon').length,
       english: HYMN_DATABASE.filter(h => h.category === 'english').length,
-      worship: HYMN_DATABASE.filter(h => h.category === 'worship').length,
-      all: HYMN_DATABASE.length
+      worship: HYMN_DATABASE.filter(h => h.category === 'worship').length
     };
   }, []);
 
@@ -357,13 +356,6 @@ function SongbookSelection({ onSelectCategory, favoritesCount, themeClasses, onO
       subtitle: 'Contemporary Praise & Chords',
       count: counts.worship,
       icon: Music
-    },
-    {
-      id: 'all',
-      title: 'All Songs',
-      subtitle: 'Complete Songbook Collection',
-      count: counts.all,
-      icon: Layers
     },
     {
       id: 'favorites',
@@ -454,8 +446,8 @@ function HymnList({ hymns, searchQuery, setSearchQuery, sortBy, setSortBy, onSel
 
   return (
     <div className={`flex flex-col h-full w-full max-w-2xl mx-auto shadow-lg ${themeClasses.listBg}`}>
-      <header className={`p-4 shadow-md z-10 border-b ${themeClasses.headerBg}`}>
-        <div className="flex items-center justify-between mb-3">
+      <header className={`p-3 sm:p-4 shadow-md z-10 border-b ${themeClasses.headerBg}`}>
+        <div className="flex flex-wrap items-center gap-2 mb-3">
           <button 
             onClick={onBackToSongbooks}
             className="flex items-center gap-1 text-xs bg-black/20 hover:bg-black/30 active:bg-black/50 active:scale-95 transition-all duration-150 px-3 py-1.5 rounded-lg font-medium"
@@ -463,9 +455,9 @@ function HymnList({ hymns, searchQuery, setSearchQuery, sortBy, setSortBy, onSel
             <ArrowLeft size={16} /> Songbooks
           </button>
           
-          <h1 className="text-base font-bold truncate px-2">{categoryTitles[selectedCategory] || 'Ambahanon'}</h1>
+          <h1 className="order-3 sm:order-none basis-full sm:basis-auto min-w-0 flex-1 text-center sm:text-left text-base font-bold truncate px-2">{categoryTitles[selectedCategory] || 'Ambahanon'}</h1>
 
-          <div className="flex items-center gap-1">
+          <div className="ml-auto flex items-center gap-1">
             <button
               onClick={() => setSortBy(prev => prev === 'number' ? 'alpha' : 'number')}
               className="flex items-center gap-1 text-xs bg-black/20 hover:bg-black/30 active:bg-black/50 active:scale-95 transition-all duration-150 px-2.5 py-1.5 rounded-lg font-medium"
@@ -540,10 +532,10 @@ function HymnViewer({ hymn, onClose, onNavigate, isFirst, isLast, isFavorite, on
   const [zoom, setZoom] = useState(1);
   const containerRef = useRef(null);
 
-  if (!hymn) return null;
-
-  const hasScans = hymn.category === 'hiligaynon' || (hymn.pages && hymn.pages.length > 0);
+  const hasScans = hymn?.category === 'hiligaynon' || (hymn?.pages && hymn.pages.length > 0);
   const [viewMode, setViewMode] = useState(hasScans ? 'scan' : 'lyrics');
+
+  if (!hymn) return null;
 
   const key = getHymnKey(hymn);
   const rawLyrics = hymnLyrics[key] || hymnLyrics[hymn.id] || '';
@@ -582,16 +574,16 @@ function HymnViewer({ hymn, onClose, onNavigate, isFirst, isLast, isFavorite, on
 
   return (
     <div className={`flex flex-col h-full w-full ${themeClasses.listBg}`}>
-      <header className={`p-2 flex items-center justify-between shadow-md z-20 border-b ${themeClasses.headerBg}`}>
+      <header className={`p-2 flex items-center gap-1 shadow-md z-20 border-b ${themeClasses.headerBg}`}>
         <button onClick={onClose} className="p-2 rounded-full hover:bg-black/20 active:scale-90 transition-all duration-150"><ArrowLeft size={24} /></button>
-        <div className="text-center flex-1 px-2 truncate">
+        <div className="text-center min-w-0 flex-1 px-1 truncate">
           <span className={`text-xs block uppercase font-medium ${themeClasses.accentText}`}>
             Hymn {hymn.id} • {hymn.category}
           </span>
           <h2 className="text-sm md:text-base font-bold truncate">{hymn.title}</h2>
         </div>
 
-        <div className="flex gap-1">
+        <div className="flex shrink-0 gap-1">
           <button onClick={onToggleFavorite} className="p-2 rounded-full hover:bg-black/20 active:scale-90 transition-all duration-150">
             <Heart size={22} className={isFavorite ? 'fill-rose-500 text-rose-500' : ''} />
           </button>
@@ -645,7 +637,7 @@ function HymnViewer({ hymn, onClose, onNavigate, isFirst, isLast, isFavorite, on
         )}
 
         {viewMode === 'lyrics' && (
-          <div className="p-6 max-w-xl mx-auto">
+          <div className="p-4 sm:p-6 max-w-xl mx-auto">
             {plainLyrics ? (
               <pre className="whitespace-pre-wrap font-sans text-lg leading-relaxed">{plainLyrics}</pre>
             ) : (
@@ -655,7 +647,7 @@ function HymnViewer({ hymn, onClose, onNavigate, isFirst, isLast, isFavorite, on
         )}
 
         {viewMode === 'chords' && (
-          <div className="p-6 max-w-xl mx-auto">
+          <div className="p-4 sm:p-6 max-w-xl mx-auto">
             {renderChords(rawLyrics)}
           </div>
         )}
@@ -668,11 +660,11 @@ function HymnViewer({ hymn, onClose, onNavigate, isFirst, isLast, isFavorite, on
       </div>
 
       <div className={`p-3 flex justify-between items-center border-t border-white/10 safe-area-bottom ${themeClasses.headerBg}`}>
-        <button onClick={() => onNavigate('prev')} disabled={isFirst} className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-black/30 disabled:opacity-30 hover:bg-black/50 active:scale-95 transition-all duration-150 w-28 font-medium">
+        <button onClick={() => onNavigate('prev')} disabled={isFirst} className="flex min-w-0 flex-1 sm:flex-none items-center justify-center gap-1 sm:gap-2 py-2 px-2 sm:px-4 rounded-lg bg-black/30 disabled:opacity-30 hover:bg-black/50 active:scale-95 transition-all duration-150 sm:w-28 font-medium">
           <ChevronLeft size={20} /> Antis
         </button>
-        <span className={`text-sm font-bold ${themeClasses.accentText}`}>Hymn {hymn.id}</span>
-        <button onClick={() => onNavigate('next')} disabled={isLast} className="flex items-center justify-center gap-2 py-2 px-4 rounded-lg bg-black/30 disabled:opacity-30 hover:bg-black/50 active:scale-95 transition-all duration-150 w-28 font-medium">
+        <span className={`shrink-0 text-xs sm:text-sm font-bold ${themeClasses.accentText}`}>Hymn {hymn.id}</span>
+        <button onClick={() => onNavigate('next')} disabled={isLast} className="flex min-w-0 flex-1 sm:flex-none items-center justify-center gap-1 sm:gap-2 py-2 px-2 sm:px-4 rounded-lg bg-black/30 disabled:opacity-30 hover:bg-black/50 active:scale-95 transition-all duration-150 sm:w-28 font-medium">
           Sunod <ChevronRight size={20} />
         </button>
       </div>

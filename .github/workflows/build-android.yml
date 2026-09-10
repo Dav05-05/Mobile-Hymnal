@@ -31,7 +31,7 @@ jobs:
       - name: Initialize Capacitor
         run: |
           if [ ! -f "capacitor.config.json" ] && [ ! -f "capacitor.config.ts" ]; then
-            npx cap init "Hiligaynon Hymnal" "com.hymnal.hiligaynon" --web-dir dist
+            npx cap init "Mobile Hymnal" "com.hymnal.hiligaynon" --web-dir dist
           fi
 
       - name: Add or Sync Android
@@ -42,6 +42,11 @@ jobs:
             npx cap sync android
           fi
 
+      - name: Set Android app metadata
+        run: |
+          sed -i 's/versionCode [0-9]*/versionCode 10101/' android/app/build.gradle
+          sed -i 's/versionName "[^"]*"/versionName "1.1.1"/' android/app/build.gradle
+
       - name: Build Android APK
         run: |
           cd android
@@ -51,5 +56,5 @@ jobs:
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-debug-apk
+          name: mobile-hymnal-1.1.1-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
