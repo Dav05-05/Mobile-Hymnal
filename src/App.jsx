@@ -627,7 +627,7 @@ function HymnViewer({ hymn, onClose, onNavigate, isFirst, isLast, isFavorite, on
             {hymn.pages?.map((page) => (
               <img 
                 key={page} 
-                src={`/scans/page-${String(page).padStart(3, '0')}.jpg`} 
+                src={hymn.category === 'english' ? `/english-scans/page-${String(page).padStart(3, '0')}.jpg` : `/scans/page-${String(page).padStart(3, '0')}.jpg`} 
                 alt={`${hymn.title}, page ${page}`} 
                 className="max-w-full origin-top-left transition-transform duration-200" 
                 style={{ transform: `scale(${zoom})` }} 
